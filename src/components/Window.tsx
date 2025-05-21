@@ -22,8 +22,8 @@ export default function Window({
   isActive,
 }: WindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
-  const [size, setSize] = useState({ width: 400, height: 300 });
-  const [position, setPosition] = useState({ x: 200, y: 100 });
+  const [size, setSize] = useState({ width: 600, height: 450 });
+  const [position, setPosition] = useState({ x: 120, y: 100 });
 
   // Guardar tamaño y posición previos al maximizar
   const prevSize = useRef(size);

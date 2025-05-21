@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import Taskbar from "./components/Taskbar";
 import DesktopIcon from "./components/DesktopIcon";
 import Window from "./components/Window";
+import AboutWindow from "./components/windows/AboutWindow";
+import ProjectsWindow from "./components/windows/ProjectsWindow";
+import SkillsWindow from "./components/windows/SkillsWindow";
+import ContactWindow from "./components/windows/ContactWindow";
+import GalleryWindow from "./components/windows/GalleryWindow";
+import SettingsWindow from "./components/windows/SettingsWindow";
+import HelpWindow from "./components/windows/HelpWindow";
+import MyPCWindow from "./components/windows/MyPCWindow";
 import {
   User,
   Folder,
@@ -68,8 +76,8 @@ const pcInfo = {
   userAgent: navigator.userAgent,
   idioma: navigator.language,
   // @ts-ignore
-  memoria: navigator.deviceMemory || "No disponible",
-  cpu: navigator.hardwareConcurrency || "No disponible",
+  memoria: String(navigator.deviceMemory || "No disponible"),
+  cpu: String(navigator.hardwareConcurrency || "No disponible"),
   resolucion: `${screen.width}x${screen.height}`,
   conexion: navigator.onLine ? "Online" : "Offline",
 };
@@ -200,43 +208,14 @@ export default function App() {
           isActive={!minimized[id]}
         >
           <div className="p-4 text-gray-800">
-            {id === "MyPC" && (
-              <div>
-                <h2 className="font-bold mb-2">Información del sistema</h2>
-                <ul className="text-sm">
-                  <li>
-                    <b>Plataforma:</b> {pcInfo.plataforma}
-                  </li>
-                  <li>
-                    <b>User Agent:</b> {pcInfo.userAgent}
-                  </li>
-                  <li>
-                    <b>Idioma:</b> {pcInfo.idioma}
-                  </li>
-                  <li>
-                    <b>Memoria:</b> {pcInfo.memoria} GB
-                  </li>
-                  <li>
-                    <b>CPU:</b> {pcInfo.cpu} núcleos
-                  </li>
-                  <li>
-                    <b>Resolución:</b> {pcInfo.resolucion}
-                  </li>
-                  <li>
-                    <b>Conexión:</b> {pcInfo.conexion}
-                  </li>
-                </ul>
-              </div>
-            )}
-            {id === "About" && (
-              <div>¡Hola! Soy tu nombre. Agrega tu info aquí</div>
-            )}
-            {id === "Projects" && <div>Aquí van tus proyectos.</div>}
-            {id === "Skills" && <div>Aquí van tus habilidades.</div>}
-            {id === "Contact" && <div>Formulario o info de contacto.</div>}
-            {id === "Gallery" && <div>Aquí va tu galería.</div>}
-            {id === "Settings" && <div>Aquí va la configuración.</div>}
-            {id === "Help" && <div>Aquí va la ayuda.</div>}
+            {id === "MyPC" && <MyPCWindow pcInfo={pcInfo} />}
+            {id === "About" && <AboutWindow />}
+            {id === "Projects" && <ProjectsWindow />}
+            {id === "Skills" && <SkillsWindow />}
+            {id === "Contact" && <ContactWindow />}
+            {id === "Gallery" && <GalleryWindow />}
+            {id === "Settings" && <SettingsWindow />}
+            {id === "Help" && <HelpWindow />}
           </div>
         </Window>
       ))}
