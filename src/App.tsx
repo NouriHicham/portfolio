@@ -22,6 +22,19 @@ import {
   LogOut,
 } from "lucide-react";
 
+// Asegura tema por defecto al cargar la app
+if (typeof window !== "undefined") {
+  const savedTheme = localStorage.getItem("theme");
+  if (!savedTheme || savedTheme === "light") {
+    localStorage.setItem("theme", "light");
+    document.body.classList.remove("theme-dark", "dark");
+    document.body.classList.add("theme-light");
+  } else if (savedTheme === "dark") {
+    document.body.classList.remove("theme-light");
+    document.body.classList.add("theme-dark", "dark");
+  }
+}
+
 // Iconos del escritorio: azul
 const desktopIcons = [
   {
@@ -156,7 +169,7 @@ export default function App() {
       </div>
       {/* Menú de inicio */}
       {showMenu && (
-        <div className="fixed left-0 bottom-[48px] z-50 bg-blue-800 border-blue-700 shadow-lg min-w-[220px] py-2">
+        <div className="fixed left-0 bottom-[44px] z-50 bg-blue-800 border-blue-700 shadow-lg min-w-[240px] py-2">
           {/* Usuario en la parte superior */}
           <div className="flex items-center gap-2 pb-2 border-b border-white/70 mb-2">
             <img
@@ -209,7 +222,20 @@ export default function App() {
         >
           <div className="p-4 text-gray-800">
             {id === "MyPC" && <MyPCWindow pcInfo={pcInfo} />}
-            {id === "About" && <AboutWindow />}
+            {id === "About" && <AboutWindow 
+              onOpenSkills={() => {
+                if (!openWindows.includes("Skills")) {
+                  setOpenWindows([...openWindows, "Skills"]);
+                }
+                setMinimized((prev) => ({ ...prev, ["Skills"]: false }));
+              }}
+              onOpenProjects={() => {
+                if (!openWindows.includes("Projects")) {
+                  setOpenWindows([...openWindows, "Projects"]);
+                }
+                setMinimized((prev) => ({ ...prev, ["Projects"]: false }));
+              }}
+            />}
             {id === "Projects" && <ProjectsWindow />}
             {id === "Skills" && <SkillsWindow />}
             {id === "Contact" && <ContactWindow />}
@@ -224,8 +250,10 @@ export default function App() {
         openWindows={openWindows}
         minimized={minimized}
         onRestore={handleRestoreWindow}
+        onMinimize={handleMinimizeWindow}
         onMenuClick={() => setShowMenu((v) => !v)}
         menuOpen={showMenu}
+        desktopIcons={desktopIcons}
       />
     </div>
   );

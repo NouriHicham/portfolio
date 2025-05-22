@@ -22,7 +22,7 @@ export default function Window({
   isActive,
 }: WindowProps) {
   const [isMaximized, setIsMaximized] = useState(false);
-  const [size, setSize] = useState({ width: 600, height: 450 });
+  const [size, setSize] = useState({ width: 600, height: 550 });
   const [position, setPosition] = useState({ x: 120, y: 100 });
 
   // Guardar tamaño y posición previos al maximizar
@@ -52,7 +52,7 @@ export default function Window({
       size={size}
       position={position}
       minWidth={400}
-      minHeight={300}
+      minHeight={350}
       bounds="window"
       dragHandleClassName="window-titlebar"
       className={`z-40 ${isActive ? "" : "opacity-80"}`}
@@ -97,7 +97,7 @@ export default function Window({
             </button>
           </div>
         </div>
-        <div className="bg-white rounded-b flex-1 overflow-auto">
+        <div className="bg-white rounded-b flex-1 overflow-auto scroll-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
           {children}
         </div>
       </div>

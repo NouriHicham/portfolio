@@ -3,8 +3,11 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}", // Incluye todos los archivos fuente
   ],
+  darkMode: "class",
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 };
