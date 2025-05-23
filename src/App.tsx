@@ -220,7 +220,14 @@ export default function App() {
       {openWindows.map((id) => (
         <Window
           key={id}
-          title={desktopIcons.find((i) => i.id === id)?.label + (id == "Browser" ? " - " + browserUrl?.replace("https://", "") : "")}
+          title={
+            <span>
+              {desktopIcons.find((i) => i.id === id)?.label}
+              {id === "Browser" && (
+                <span> - <a href={browserUrl ?? ""} target="_blank" rel="noreferrer">{browserUrl?.replace("https://", "")}</a></span>
+              )}
+            </span>
+          }
           onClose={() => {
             if (id === "Browser") setBrowserUrl(null);
             handleCloseWindow(id);

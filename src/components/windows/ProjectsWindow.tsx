@@ -14,7 +14,7 @@ export default function ProjectsWindow({ onOpenUrl }: ProjectsWindowProps) {
           <div className="flex items-center justify-between">
             <h3 className="font-bold"><a href="https://github.com/nouriHicham174/proyectoTetris" target="_blank" rel="noreferrer" className="flex items-center hover:underline">Tetris <ArrowUpRight size={15} className="ml-1 text-blue-700 dark:text-blue-300" /></a></h3>
             <button
-              className="flex items-center hover:underline text-sm font-normal cursor-pointer"
+              className="flex items-center hover:underline text-sm font-normal cursor-alias"
               onClick={() => onOpenUrl && onOpenUrl("https://proyecto-tetris-blond.vercel.app/")}
             >
               Previsualizar <Link2 size={15} className="ml-1 text-blue-700 dark:text-blue-300" />
@@ -27,7 +27,7 @@ export default function ProjectsWindow({ onOpenUrl }: ProjectsWindowProps) {
           <div className="flex items-center justify-between">
             <h3 className="font-bold"><a href="https://github.com/nouriHicham174/proyectoUno/tree/importaci%C3%B3n" target="_blank" rel="noreferrer" className="flex items-center hover:underline">Uno <ArrowUpRight size={15} className="ml-1 text-blue-700 dark:text-blue-300" /></a></h3>
             <button
-              className="flex items-center hover:underline text-sm font-normal cursor-pointer"
+              className="flex items-center hover:underline text-sm font-normal cursor-alias"
               onClick={() => onOpenUrl && onOpenUrl("https://hichamnourichahid.alwaysdata.net/projecte2")}
             >
               Previsualizar <Link2 size={15} className="ml-1 text-blue-700 dark:text-blue-300" />
@@ -40,7 +40,7 @@ export default function ProjectsWindow({ onOpenUrl }: ProjectsWindowProps) {
           <div className="flex items-center justify-between">
             <h3 className="font-bold"><a href="https://github.com/NouriHicham/proyectoPadel" target="_blank" rel="noreferrer" className="flex items-center hover:underline">Proyecto Padel <ArrowUpRight size={15} className="ml-1 text-blue-700 dark:text-blue-300" /></a></h3>
             <button
-              className="flex items-center hover:underline text-sm font-normal cursor-pointer"
+              className="flex items-center hover:underline text-sm font-normal cursor-alias"
               onClick={() => onOpenUrl && onOpenUrl("https://proyecto-padel.vercel.app/")}
             >
               Previsualizar <Link2 size={15} className="ml-1 text-blue-700 dark:text-blue-300" />

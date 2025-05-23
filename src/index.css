@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Fondo estilo Windows XP */
 body {
   font-family: "Tahoma", "Geneva", sans-serif;

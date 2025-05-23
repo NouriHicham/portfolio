@@ -3,7 +3,7 @@ import { Rnd } from "react-rnd";
 import { Minus, Square, X } from "lucide-react";
 
 interface WindowProps {
-  title: string;
+  title: string | React.ReactNode;
   onClose: () => void;
   children: React.ReactNode;
   minimized?: boolean;
@@ -107,7 +107,7 @@ export default function Window({
             </button>
           </div>
         </div>
-        <div className="bg-white rounded-b flex-1 overflow-auto scroll-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+        <div className="bg-white rounded-b flex-1 overflow-auto scroll-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
           {children}
         </div>
       </div>
