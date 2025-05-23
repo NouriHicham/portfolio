@@ -1,7 +1,7 @@
 import React from "react";
 export default function ContactWindow() {
   return (
-    <div className="p-2">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Contacto</h2>
       <form className="">
       <label>Nombre</label>

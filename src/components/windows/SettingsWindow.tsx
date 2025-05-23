@@ -19,7 +19,7 @@ export default function SettingsWindow() {
   }, [theme]);
 
   return (
-    <div className="p-4">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Configuración</h2>
       <div className="mb-4 flex items-center gap-3">
         <label className="font-medium">Tema:</label>

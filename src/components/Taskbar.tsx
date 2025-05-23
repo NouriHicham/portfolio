@@ -55,8 +55,8 @@ export default function Taskbar({
           return (
             <button
               key={win}
-              className={`px-2 py-1 text-sm rounded text-white hover:bg-[rgba(255,255,255,0.2)] flex items-center justify-center ${
-                minimized[win] ? "opacity-60" : ""
+              className={`px-2 py-1 text-sm rounded text-white hover:bg-[rgba(255,255,255,0.2)] flex items-center justify-center cursor-pointer ${
+                minimized[win] ? "opacity-60 " : ""
               }`}
               onClick={() => minimized[win] ? onRestore?.(win) : onMinimize?.(win)}
               title={win}

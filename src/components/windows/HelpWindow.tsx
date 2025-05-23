@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HelpWindow() {
   return (
-    <div className="p-4">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Ayuda</h2>
       <p className="mb-3">Bienvenido a mi portfolio interactivo, inspirado en un escritorio de ordenador. Aquí tienes algunos consejos para sacarle el máximo partido:</p>
       <ul className="list-disc pl-6 mb-4 text-sm">

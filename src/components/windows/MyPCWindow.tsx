@@ -14,7 +14,7 @@ interface MyPCWindowProps {
 
 export default function MyPCWindow({ pcInfo }: MyPCWindowProps) {
   return (
-    <div>
+    <div className="p-6">
       <h2 className="font-bold mb-2">Información del sistema</h2>
       <ul className="text-sm">
         <li>

@@ -10,6 +10,7 @@ import GalleryWindow from "./components/windows/GalleryWindow";
 import SettingsWindow from "./components/windows/SettingsWindow";
 import HelpWindow from "./components/windows/HelpWindow";
 import MyPCWindow from "./components/windows/MyPCWindow";
+import BrowserWindow from "./components/windows/BrowserWindow";
 import {
   User,
   Folder,
@@ -20,6 +21,7 @@ import {
   Settings,
   HelpCircle,
   LogOut,
+  Globe,
 } from "lucide-react";
 
 // Asegura tema por defecto al cargar la app
@@ -82,6 +84,11 @@ const desktopIcons = [
     label: "Cerrar sesión",
     icon: <LogOut size={48} color="#2563eb" strokeWidth={1.5} />,
   },
+  {
+    id: "Browser",
+    label: "Navegador",
+    icon: <Globe size={48} color="#2563eb" strokeWidth={1.5} />,
+  }
 ];
 
 const pcInfo = {
@@ -99,6 +106,7 @@ export default function App() {
   const [openWindows, setOpenWindows] = useState<string[]>(["About"]);
   const [minimized, setMinimized] = useState<Record<string, boolean>>({});
   const [showMenu, setShowMenu] = useState(false);
+  const [browserUrl, setBrowserUrl] = useState<string | null>(null);
 
   const handleIconDoubleClick = (id: string) => {
     if (id === "Logout") {
@@ -169,7 +177,7 @@ export default function App() {
       </div>
       {/* Menú de inicio */}
       {showMenu && (
-        <div className="fixed left-0 bottom-[44px] z-50 bg-blue-800 border-blue-700 shadow-lg min-w-[240px] py-2">
+        <div className="fixed left-0 bottom-[44px] z-50 bg-blue-800 border-blue-700 shadow-lg min-w-[280px] py-2">
           {/* Usuario en la parte superior */}
           <div className="flex items-center gap-2 pb-2 border-b border-white/70 mb-2">
             <img
@@ -185,11 +193,10 @@ export default function App() {
           {menuIcons.map((icon, idx) => (
             <React.Fragment key={icon?.id}>
               <button
-                className="flex items-center w-full gap-3 px-3 py-2 hover:bg-[rgba(255,255,255,0.1)] text-left"
+                className="flex items-center w-full gap-3 px-3 py-2 hover:bg-[rgba(255,255,255,0.1)] text-left cursor-pointer"
                 onClick={() => handleIconDoubleClick(icon!.id)}
               >
                 <span className="w-7 h-7 flex items-center justify-center">
-                  {/* Clona el icono con color blanco */}
                   {/* @ts-ignore */}
                   {React.cloneElement(icon.icon, { color: "#fff" })}
                 </span>
@@ -213,14 +220,17 @@ export default function App() {
       {openWindows.map((id) => (
         <Window
           key={id}
-          title={desktopIcons.find((i) => i.id === id)?.label || ""}
-          onClose={() => handleCloseWindow(id)}
+          title={desktopIcons.find((i) => i.id === id)?.label + (id == "Browser" ? " - " + browserUrl?.replace("https://", "") : "")}
+          onClose={() => {
+            if (id === "Browser") setBrowserUrl(null);
+            handleCloseWindow(id);
+          }}
           minimized={minimized[id]}
           onMinimize={() => handleMinimizeWindow(id)}
           onRestore={() => handleRestoreWindow(id)}
           isActive={!minimized[id]}
         >
-          <div className="p-4 text-gray-800">
+          <div className="text-gray-800 h-full">
             {id === "MyPC" && <MyPCWindow pcInfo={pcInfo} />}
             {id === "About" && <AboutWindow 
               onOpenSkills={() => {
@@ -236,12 +246,22 @@ export default function App() {
                 setMinimized((prev) => ({ ...prev, ["Projects"]: false }));
               }}
             />}
-            {id === "Projects" && <ProjectsWindow />}
+            {id === "Projects" && <ProjectsWindow onOpenUrl={(url) => {
+              setBrowserUrl(url);
+              if (!openWindows.includes("Browser")) {
+                setOpenWindows([...openWindows, "Browser"]);
+              }
+              setMinimized((prev) => ({ ...prev, ["Browser"]: false }));
+            }} />}
             {id === "Skills" && <SkillsWindow />}
             {id === "Contact" && <ContactWindow />}
             {id === "Gallery" && <GalleryWindow />}
             {id === "Settings" && <SettingsWindow />}
             {id === "Help" && <HelpWindow />}
+            {id === "Browser" && browserUrl && <BrowserWindow url={browserUrl} onClose={() => {
+              setBrowserUrl(null);
+              handleCloseWindow("Browser");
+            }} />}
           </div>
         </Window>
       ))}

@@ -8,7 +8,7 @@ interface AboutWindowProps {
 
 export default function AboutWindow({ onOpenSkills, onOpenProjects }: AboutWindowProps) {
   return (
-    <div className="p-2">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Sobre Mí</h2>
       <p className="mb-3">¡Hola! Soy Hicham, desarrollador web con formación en el Grado Superior de Desarrollo de Aplicaciones Web (DAW). Me apasiona construir experiencias digitales funcionales, creativas y bien estructuradas, tanto en frontend como en backend.</p>
       <p className="mb-3">Recientemente he trabajado desarrollando una aplicación para W3Barcelona, donde puse en práctica mis conocimientos en entornos reales, colaborando en equipo y enfrentándome a retos técnicos con soluciones prácticas.</p>
