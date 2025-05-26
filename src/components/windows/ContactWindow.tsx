@@ -1,7 +1,7 @@
 import React from "react";
 export default function ContactWindow() {
   return (
-    <div className="p-2">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Contacto</h2>
       <form className="">
       <label>Nombre</label>
@@ -17,10 +17,11 @@ export default function ContactWindow() {
         Enviar
       </button>
     </form>
-      <div className="border-t border-gray-300 mt-4 pt-4"></div>
+      <div className="border-t border-gray-300 mt-5 pt-4"></div>
       <h3 className="font-bold mb-2">Información de contacto</h3>
       <ul className="pl-1 mb-4 list-none">
           <li>📧 hichak55@gmail.com</li>
+          <li>📞 +34 634 723 067</li>
           <li>🔗 linkedin.com/in/nourihicham174/</li>
           <li>🐱 github.com/NouriHicham174</li>
           <li>📍 Barcelona, España</li>

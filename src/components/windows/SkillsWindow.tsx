@@ -1,7 +1,7 @@
 import React from "react";
 export default function SkillsWindow() {
   return (
-    <div className="p-2">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Habilidades</h2>
       <div className="mb-4">
         <h3 className="font-bold mb-2">Frontend</h3>
