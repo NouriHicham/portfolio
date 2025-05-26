@@ -72,7 +72,7 @@ export default function Window({
       maxWidth={vw}
       maxHeight={vh - 48}
       bounds="window"
-      dragHandleClassName="window-titlebar"
+      dragHandleClassName="drag-area"
       className={`z-40 ${isActive ? "" : "opacity-80"}`}
       onDragStop={(_, d) => setPosition({ x: d.x, y: d.y })}
       onResizeStop={(_, __, ref, ___, pos) => {
@@ -83,11 +83,13 @@ export default function Window({
       disableDragging={isMaximized || dragDisabled}
     >
       <div className="flex flex-col h-full w-full bg-gray-100 border-1 border-blue-700 rounded shadow-lg">
-        <div className="window-titlebar flex items-center justify-between bg-gradient-to-r from-blue-700 to-blue-500 text-white px-3 py-2 cursor-move select-none z-10 relative">
-          <span className="font-bold text-base truncate max-w-[70vw]">{title}</span>
-          <div className="flex gap-1">
+        <div className="window-titlebar flex items-center justify-between bg-gradient-to-r from-blue-700 to-blue-500 text-white px-3 py-2 select-none z-10 relative">
+            <div className="drag-area flex-1 cursor-move flex items-center">
+              <span className="font-bold text-base truncate max-w-[70vw]">{title}</span>
+            </div>
+          <div className="flex gap-1 ml-2">
             <button
-              className="hover:bg-blue-400 rounded flex items-center justify-center p-1.5 cursor-default"
+              className="hover:bg-blue-400 rounded flex items-center justify-center p-1.5 cursor-pointer touch-action-manipulation"
               onClick={onMinimize}
               onMouseDown={e => { setDragDisabled(true); e.stopPropagation()}}
               onMouseUp={() => setDragDisabled(false)}
@@ -98,7 +100,7 @@ export default function Window({
               <Minus size={16} color="#fff" />
             </button>
             <button
-              className="hover:bg-blue-400 rounded flex items-center justify-center p-1.5 cursor-default"
+              className="hover:bg-blue-400 rounded flex items-center justify-center p-1.5 cursor-pointer touch-action-manipulation"
               onClick={() => setIsMaximized((v) => !v)}
               onMouseDown={e => e.stopPropagation()}
               title={isMaximized ? "Restaurar" : "Maximizar"}
@@ -108,7 +110,7 @@ export default function Window({
               <Square size={16} color="#fff" />
             </button>
             <button
-              className="bg-red-600 hover:bg-red-700 text-white rounded flex items-center justify-center p-1.5 cursor-default"
+              className="bg-red-600 hover:bg-red-700 text-white rounded flex items-center justify-center p-1.5 cursor-pointer touch-action-manipulation"
               onClick={onClose}
               onMouseDown={e => e.stopPropagation()}
               title="Cerrar"
