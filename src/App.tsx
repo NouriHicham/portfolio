@@ -108,6 +108,24 @@ export default function App() {
   const [minimized, setMinimized] = useState<Record<string, boolean>>({});
   const [showMenu, setShowMenu] = useState(false);
   const [browserUrl, setBrowserUrl] = useState<string | null>(null);
+  // Estado para posición y tamaño de cada ventana
+  const [windowState, setWindowState] = useState<Record<string, { size: { width: number, height: number }, position: { x: number, y: number } }>>({});
+
+  // Función para inicializar posición/tamaño si no existe
+  function getInitialWindowState(id: string) {
+    const vw = typeof window !== "undefined" ? window.innerWidth : 800;
+    const vh = typeof window !== "undefined" ? window.innerHeight : 600;
+    const initialWidth = vw < 600 ? vw * 0.98 : 600;
+    const initialHeight = vh < 600 ? vh * 0.85 : 550;
+    function getRandomOffset(max = 40) { return Math.floor(Math.random() * max); }
+    return {
+      size: { width: initialWidth, height: initialHeight },
+      position: {
+        x: Math.max(10, vw * 0.05) + getRandomOffset(),
+        y: Math.max(10, vh * 0.08) + getRandomOffset(),
+      },
+    };
+  }
 
   const handleIconDoubleClick = (id: string) => {
     if (id === "Logout") {
@@ -180,7 +198,7 @@ export default function App() {
       {showMenu && (
         <div className="fixed left-0 bottom-[44px] z-50 bg-blue-800 border-blue-700 shadow-lg min-w-[280px] py-2">
           {/* Usuario en la parte superior */}
-          <div className="flex items-center gap-2 pb-2 border-b border-white/70 mb-2">
+          <div className="flex items-center gap-2 pb-2 border-b border-white/70 mb-2 pr-4">
             <img
               src="/user.jpg"
               alt="Usuario"
@@ -218,61 +236,76 @@ export default function App() {
         </div>
       )}
       {/* Ventanas */}
-      {openWindows.map((id) => (
-        <Window
-          key={id}
-          title={
-            <span>
-              {desktopIcons.find((i) => i.id === id)?.label}
-              {id === "Browser" && (
-                  <span> - <a href={browserUrl ?? ""} target="_blank" rel="noreferrer" >{browserUrl?.replace("https://", "")}</a></span>
-              )}
-            </span>
-          }
-          onClose={() => {
-            if (id === "Browser") setBrowserUrl(null);
-            handleCloseWindow(id);
-          }}
-          minimized={minimized[id]}
-          onMinimize={() => handleMinimizeWindow(id)}
-          onRestore={() => handleRestoreWindow(id)}
-          isActive={!minimized[id]}
-        >
-          <div className="text-gray-800 h-full">
-            {id === "MyPC" && <MyPCWindow pcInfo={pcInfo} />}
-            {id === "About" && <AboutWindow 
-              onOpenSkills={() => {
-                if (!openWindows.includes("Skills")) {
-                  setOpenWindows([...openWindows, "Skills"]);
-                }
-                setMinimized((prev) => ({ ...prev, ["Skills"]: false }));
-              }}
-              onOpenProjects={() => {
-                if (!openWindows.includes("Projects")) {
-                  setOpenWindows([...openWindows, "Projects"]);
-                }
-                setMinimized((prev) => ({ ...prev, ["Projects"]: false }));
-              }}
-            />}
-            {id === "Projects" && <ProjectsWindow onOpenUrl={(url) => {
-              setBrowserUrl(url);
-              if (!openWindows.includes("Browser")) {
-                setOpenWindows([...openWindows, "Browser"]);
+      {openWindows.map((id) => {
+        // Inicializa estado si no existe
+        if (!windowState[id]) {
+          windowState[id] = getInitialWindowState(id);
+        }
+        return (
+          <Window
+            key={id}
+            title={
+              <span>
+                {desktopIcons.find((i) => i.id === id)?.label}
+                {id === "Browser" && (
+                    <span> - <a href={browserUrl ?? ""} target="_blank" rel="noreferrer" >{browserUrl?.replace("https://", "")}</a></span>
+                )}
+              </span>
+            }
+            onClose={() => {
+              if (id === "Browser") setBrowserUrl(null);
+              handleCloseWindow(id);
+            }}
+            minimized={minimized[id]}
+            onMinimize={() => handleMinimizeWindow(id)}
+            onRestore={() => handleRestoreWindow(id)}
+            isActive={!minimized[id]}
+            onActivate={() => {
+              if (openWindows[openWindows.length - 1] !== id) {
+                setOpenWindows((wins) => [...wins.filter((w) => w !== id), id]);
               }
-              setMinimized((prev) => ({ ...prev, ["Browser"]: false }));
-            }} />}
-            {id === "Skills" && <SkillsWindow />}
-            {id === "Contact" && <ContactWindow />}
-            {id === "Gallery" && <GalleryWindow />}
-            {id === "Settings" && <SettingsWindow />}
-            {id === "Help" && <HelpWindow />}
-            {id === "Browser" && browserUrl && <BrowserWindow url={browserUrl} onClose={() => {
-              setBrowserUrl(null);
-              handleCloseWindow("Browser");
-            }} />}
-          </div>
-        </Window>
-      ))}
+            }}
+            size={windowState[id].size}
+            position={windowState[id].position}
+            onChangeSize={(size) => setWindowState((prev) => ({ ...prev, [id]: { ...prev[id], size } }))}
+            onChangePosition={(position) => setWindowState((prev) => ({ ...prev, [id]: { ...prev[id], position } }))}
+          >
+            <div className="text-gray-800 h-full">
+              {id === "MyPC" && <MyPCWindow pcInfo={pcInfo} />}
+              {id === "About" && <AboutWindow 
+                onOpenSkills={() => {
+                  if (!openWindows.includes("Skills")) {
+                    setOpenWindows([...openWindows, "Skills"]);
+                  }
+                  setMinimized((prev) => ({ ...prev, ["Skills"]: false }));
+                }}
+                onOpenProjects={() => {
+                  if (!openWindows.includes("Projects")) {
+                    setOpenWindows([...openWindows, "Projects"]);
+                  }
+                  setMinimized((prev) => ({ ...prev, ["Projects"]: false }));
+                }}
+              />}
+              {id === "Projects" && <ProjectsWindow onOpenUrl={(url) => {
+                setBrowserUrl(url);
+                if (!openWindows.includes("Browser")) {
+                  setOpenWindows([...openWindows, "Browser"]);
+                }
+                setMinimized((prev) => ({ ...prev, ["Browser"]: false }));
+              }} />}
+              {id === "Skills" && <SkillsWindow />}
+              {id === "Contact" && <ContactWindow />}
+              {id === "Gallery" && <GalleryWindow />}
+              {id === "Settings" && <SettingsWindow />}
+              {id === "Help" && <HelpWindow />}
+              {id === "Browser" && browserUrl && <BrowserWindow url={browserUrl} onClose={() => {
+                setBrowserUrl(null);
+                handleCloseWindow("Browser");
+              }} />}
+            </div>
+          </Window>
+        );
+      })}
       {/* Barra de tareas */}
       <Taskbar
         openWindows={openWindows}

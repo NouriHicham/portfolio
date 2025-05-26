@@ -25,6 +25,20 @@ export default function SettingsWindow() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // Tamaño de fuente global
+  useEffect(() => {
+    const fontSizes = ["14px", "16px", "18px", "22px"];
+    const size = fontSizes[selected] || "16px";
+    document.body.style.setProperty("--font-size-root", size);
+    localStorage.setItem("fontSize", String(selected));
+  }, [selected]);
+
+  useEffect(() => {
+    // Al cargar, lee el tamaño guardado
+    const saved = localStorage.getItem("fontSize");
+    if (saved) setSelected(Number(saved));
+  }, []);
+
   return (
     <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Configuración</h2>
