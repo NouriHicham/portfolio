@@ -200,7 +200,7 @@ export default function App() {
           {/* Usuario en la parte superior */}
           <div className="flex items-center gap-2 pb-2 border-b border-white/70 mb-2 pr-4">
             <img
-              src="/user.jpg"
+              src="public/yomismo.jpg"
               alt="Usuario"
               className="w-12 h-12 rounded-full border-1 border-white shadow"
             />
