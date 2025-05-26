@@ -73,14 +73,12 @@ export default function Window({
         onChangePosition(pos);
       }}
       enableResizing={!isMaximized}
-      disableDragging={isMaximized || dragDisabled}
-    >
+      disableDragging={isMaximized || dragDisabled}>
       <div
         className="flex flex-col h-full w-full bg-gray-100 border-1 border-blue-700 rounded shadow-lg"
-        onMouseDown={onActivate}
-      >
+        onMouseDown={onActivate}>
         <div className="window-titlebar flex items-center justify-between bg-gradient-to-r from-blue-700 to-blue-500 text-white px-3 py-2 select-none z-10 relative">
-          <div className="drag-area flex-1 cursor-move flex items-center">
+          <div className="drag-area flex-1 cursor-move flex items-center overflow-auto">
             <span className="font-bold text-base truncate max-w-[70vw]">{title}</span>
           </div>
           <div className="flex gap-1 ml-2">
