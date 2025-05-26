@@ -22,6 +22,7 @@ import {
   HelpCircle,
   LogOut,
   Globe,
+  ArrowUpRight,
 } from "lucide-react";
 
 // Asegura tema por defecto al cargar la app
@@ -224,7 +225,7 @@ export default function App() {
             <span>
               {desktopIcons.find((i) => i.id === id)?.label}
               {id === "Browser" && (
-                <span> - <a href={browserUrl ?? ""} target="_blank" rel="noreferrer">{browserUrl?.replace("https://", "")}</a></span>
+                  <span> - <a href={browserUrl ?? ""} target="_blank" rel="noreferrer" >{browserUrl?.replace("https://", "")}</a></span>
               )}
             </span>
           }
