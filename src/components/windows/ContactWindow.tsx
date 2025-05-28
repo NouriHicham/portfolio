@@ -39,21 +39,21 @@ export default function ContactWindow() {
       return;
     }
 
-    emailjs
-      .sendForm(
-        "service_oa7dned", // ID de tu servicio
-        "template_8oo0wzo", // ID de tu plantilla (ajusta esto al correcto)
-        form.current?.current, // Referencia al formulario
-        "sMl4ez9Qo77U_88mb" // Tu clave pública de EmailJS
-      )
+    emailjs.sendForm(
+      'service_oa7dned', 
+      'template_8oo0wzo', 
+      form.current as HTMLFormElement, 
+      {
+        publicKey: 'sMl4ez9Qo77U_88mb',
+      })
       .then(
         (result) => {
           incrementMessageCount();
-          console.log("Mensaje enviado", result.text);
+          console.log("Mensaje enviado: ", result.text);
           alert("Mensaje enviado con éxito");
         },
         (error) => {
-          console.error("Error", error.text);
+          console.error("Error: ", error.text);
           alert("Ocurrió un error al enviar el mensaje");
         }
       );
