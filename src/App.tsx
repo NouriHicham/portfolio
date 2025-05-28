@@ -11,6 +11,7 @@ import SettingsWindow from "./components/windows/SettingsWindow";
 import HelpWindow from "./components/windows/HelpWindow";
 import MyPCWindow from "./components/windows/MyPCWindow";
 import BrowserWindow from "./components/windows/BrowserWindow";
+import BuscaminasWindow from "./components/windows/BuscaminasWindow";
 import {
   User,
   Folder,
@@ -23,6 +24,7 @@ import {
   LogOut,
   Globe,
   ArrowUpRight,
+  Bomb
 } from "lucide-react";
 
 // Asegura tema por defecto al cargar la app
@@ -89,6 +91,11 @@ const desktopIcons = [
     id: "Browser",
     label: "Navegador",
     icon: <Globe size={48} color="#2563eb" strokeWidth={1.5} />,
+  },
+  {
+    id: "Buscaminas",
+    label: "Buscaminas",
+    icon: <Bomb size={48} color="#2563eb" strokeWidth={1.5} />,
   }
 ];
 
@@ -170,7 +177,7 @@ export default function App() {
 
   // Solo los iconos principales en el escritorio
   const desktopMainIcons = desktopIcons.filter((icon) =>
-    ["MyPC", "About", "Projects", "Skills", "Contact"].includes(icon.id)
+    ["MyPC", "About", "Projects", "Skills", "Contact", "Buscaminas"].includes(icon.id)
   );
 
   // Iconos del menú de inicio (todos menos Apagar al final)
@@ -320,6 +327,7 @@ export default function App() {
                 setBrowserUrl(null);
                 handleCloseWindow("Browser");
               }} />}
+              {id === "Buscaminas" && <BuscaminasWindow />}
             </div>
           </Window>
         );

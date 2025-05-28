@@ -114,9 +114,9 @@ export default function Window({
             </button>
           </div>
         </div>
-        <div className="bg-white rounded-b flex-1 min-h-0 overflow-auto scroll-auto scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-200 z-0">
-          {children}
-        </div>
+          <div className="bg-white rounded-b flex-1 min-h-0 overflow-auto scroll-auto scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-200 z-0">
+            {children}
+          </div>
       </div>
     </Rnd>
   );
