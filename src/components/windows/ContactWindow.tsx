@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { ArrowUpRight } from "lucide-react";
 
@@ -6,6 +6,7 @@ const MESSAGE_LIMIT = 3;
 
 export default function ContactWindow() {
   const form = useRef<HTMLFormElement>(null);
+  const [modal, setModal] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const canSendMessage = () => {
     const today = new Date().toISOString().slice(0, 10);
@@ -35,32 +36,33 @@ export default function ContactWindow() {
     e.preventDefault();
 
     if (!canSendMessage()) {
-      alert(`Has alcanzado el límite de ${MESSAGE_LIMIT} mensajes por día.`);
+      setModal({ type: "error", message: `Has alcanzado el límite de ${MESSAGE_LIMIT} mensajes por día.` });
+      setTimeout(() => setModal(null), 3500);
       return;
     }
 
     emailjs.sendForm(
-      'service_oa7dned', 
-      'template_8oo0wzo', 
-      form.current as HTMLFormElement, 
+      'service_oa7dned',
+      'template_8oo0wzo',
+      form.current as HTMLFormElement,
       {
         publicKey: 'sMl4ez9Qo77U_88mb',
       })
       .then(
         (result) => {
           incrementMessageCount();
-          console.log("Mensaje enviado: ", result.text);
-          alert("Mensaje enviado con éxito");
+          setModal({ type: "success", message: "Mensaje enviado con éxito" });
+          setTimeout(() => setModal(null), 3500);
         },
         (error) => {
-          console.error("Error: ", error.text);
-          alert("Ocurrió un error al enviar el mensaje");
+          setModal({ type: "error", message: "Ocurrió un error al enviar el mensaje" });
+          setTimeout(() => setModal(null), 3500);
         }
       );
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 relative">
       <h2 className="text-xl font-bold mb-4">Contacto</h2>
       <form ref={form} className="" id="my-form" onSubmit={sendEmail}>
         <label>Nombre</label>
@@ -102,6 +104,11 @@ export default function ContactWindow() {
         <li className="flex items-center">🐱 <a href="github.com/NouriHicham174" className="flex items-center hover:underline ml-1"> github.com/NouriHicham174 <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight></a></li>
         <li>📍 <span className="ml-1">Barcelona, España</span></li>
       </ul>
+      {modal && (
+        <div className={`fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 px-6 py-4 rounded shadow-lg text-white text-center ${modal.type === "success" ? "bg-green-600" : "bg-red-600"}`}>
+          {modal.message}
+        </div>
+      )}
     </div>
   );
 }
