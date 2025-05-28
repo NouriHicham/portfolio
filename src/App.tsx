@@ -81,8 +81,8 @@ const desktopIcons = [
     icon: <HelpCircle size={48} color="#2563eb" strokeWidth={1.5} />,
   },
   {
-    id: "Logout",
-    label: "Cerrar sesión",
+    id: "Apagar",
+    label: "Apagar",
     icon: <LogOut size={48} color="#2563eb" strokeWidth={1.5} />,
   },
   {
@@ -108,6 +108,7 @@ export default function App() {
   const [minimized, setMinimized] = useState<Record<string, boolean>>({});
   const [showMenu, setShowMenu] = useState(false);
   const [browserUrl, setBrowserUrl] = useState<string | null>(null);
+  const [showShutdown, setShowShutdown] = useState(false);
   // Estado para posición y tamaño de cada ventana
   const [windowState, setWindowState] = useState<Record<string, { size: { width: number, height: number }, position: { x: number, y: number } }>>({});
 
@@ -127,10 +128,20 @@ export default function App() {
     };
   }
 
-  const handleIconDoubleClick = (id: string) => {
-    if (id === "Logout") {
-      alert("Sesión cerrada.");
+  const handleShutdown = () => {
+    setShowShutdown(true);
+    setOpenWindows([]);
+    setTimeout(() => {
+      setShowShutdown(false);
+      setOpenWindows(["About"]);
+      setMinimized({});
       setShowMenu(false);
+    }, 2200);
+  };
+
+  const handleIconDoubleClick = (id: string) => {
+    if (id === "Apagar") {
+      handleShutdown();
       return;
     }
     if (!openWindows.includes(id)) {
@@ -162,7 +173,7 @@ export default function App() {
     ["MyPC", "About", "Projects", "Skills", "Contact"].includes(icon.id)
   );
 
-  // Iconos del menú de inicio (todos menos Logout al final)
+  // Iconos del menú de inicio (todos menos Apagar al final)
   const menuIcons = [
     ...desktopIcons.filter((icon) =>
       [
@@ -176,24 +187,31 @@ export default function App() {
         "Help",
       ].includes(icon.id)
     ),
-    desktopIcons.find((icon) => icon.id === "Logout"),
+    desktopIcons.find((icon) => icon.id === "Apagar"),
   ].filter(Boolean);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden font-sans">
-      {/* Escritorio */}
-      <div className="absolute inset-0">
-        <div className="p-6 flex flex-col gap-6">
-          {desktopMainIcons.map((icon) => (
-            <DesktopIcon
-              key={icon.id}
-              icon={icon.icon}
-              label={icon.label}
-              onDoubleClick={() => handleIconDoubleClick(icon.id)}
-            />
-          ))}
+      {showShutdown && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black animate-fadein">
+          <span className="text-white text-2xl font-bold animate-pulse">Apagando…</span>
         </div>
-      </div>
+      )}
+      {/* Escritorio */}
+      {!showShutdown && (
+        <div className="absolute inset-0">
+          <div className="p-6 flex flex-col gap-6">
+            {desktopMainIcons.map((icon) => (
+              <DesktopIcon
+                key={icon.id}
+                icon={icon.icon}
+                label={icon.label}
+                onDoubleClick={() => handleIconDoubleClick(icon.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
       {/* Menú de inicio */}
       {showMenu && (
         <div className="fixed left-0 bottom-[44px] z-50 bg-blue-800 border-blue-700 shadow-lg min-w-[280px] py-2">
@@ -227,7 +245,7 @@ export default function App() {
               {icon?.id === "Gallery" && (
                 <div className="border-t border-white/70" />
               )}
-              {/* Línea blanca entre Ayuda y Logout */}
+              {/* Línea blanca entre Ayuda y Apagar */}
               {icon?.id === "Help" && (
                 <div className="border-t border-white/70" />
               )}
