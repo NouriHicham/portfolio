@@ -21,7 +21,9 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
   const [minesLeft, setMinesLeft] = useState(mines);
   const [firstClick, setFirstClick] = useState(true);
   const [timer, setTimer] = useState(0);
-  const [timerInterval, setTimerInterval] = useState<ReturnType<typeof setInterval> | null>(null);
+  const [timerInterval, setTimerInterval] = useState<ReturnType<
+    typeof setInterval
+  > | null>(null);
 
   // Inicializar el tablero
   const initializeBoard = () => {
@@ -29,7 +31,12 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
     for (let y = 0; y < height; y++) {
       const row: Cell[] = [];
       for (let x = 0; x < width; x++) {
-        row.push({ value: 0, revealed: false, flagged: false, question: false });
+        row.push({
+          value: 0,
+          revealed: false,
+          flagged: false,
+          question: false,
+        });
       }
       newBoard.push(row);
     }
@@ -37,13 +44,18 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
   };
 
   // Colocar minas en el tablero (evitando la primera celda clickeada)
-  const placeMines = (board: Cell[][], firstClickX: number, firstClickY: number) => {
+  const placeMines = (
+    board: Cell[][],
+    firstClickX: number,
+    firstClickY: number
+  ) => {
     let minesPlaced = 0;
-    const newBoard = board.map(row => row.map(cell => ({ ...cell })));
+    const newBoard = board.map((row) => row.map((cell) => ({ ...cell })));
     while (minesPlaced < mines) {
       const x = Math.floor(Math.random() * width);
       const y = Math.floor(Math.random() * height);
-      const isTooCloseToFirstClick = Math.abs(x - firstClickX) <= 1 && Math.abs(y - firstClickY) <= 1;
+      const isTooCloseToFirstClick =
+        Math.abs(x - firstClickX) <= 1 && Math.abs(y - firstClickY) <= 1;
       if (newBoard[y][x].value !== "mine" && !isTooCloseToFirstClick) {
         newBoard[y][x].value = "mine";
         minesPlaced++;
@@ -111,7 +123,13 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
 
   // Revelar una celda
   const revealCell = (x: number, y: number) => {
-    if (gameOver || board[y][x].revealed || board[y][x].flagged || board[y][x].question) return;
+    if (
+      gameOver ||
+      board[y][x].revealed ||
+      board[y][x].flagged ||
+      board[y][x].question
+    )
+      return;
     if (firstClick) {
       const newBoard = placeMines(board, x, y);
       setFirstClick(false);
@@ -136,7 +154,7 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
       setBoard(newBoard);
       return; // Importante: salir aquí para no ejecutar el resto del código
     }
-    const newBoard = board.map(row => row.map(cell => ({ ...cell })));
+    const newBoard = board.map((row) => row.map((cell) => ({ ...cell })));
     if (newBoard[y][x].value === "mine") {
       for (let y2 = 0; y2 < height; y2++) {
         for (let x2 = 0; x2 < width; x2++) {
@@ -167,7 +185,11 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
         const nx = x + dx;
         const ny = y + dy;
         if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-          if (!board[ny][nx].revealed && !board[ny][nx].flagged && !board[ny][nx].question) {
+          if (
+            !board[ny][nx].revealed &&
+            !board[ny][nx].flagged &&
+            !board[ny][nx].question
+          ) {
             board[ny][nx].revealed = true;
             if (board[ny][nx].value === 0) {
               revealAdjacentCells(board, nx, ny);
@@ -181,7 +203,7 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
   const markCell = (e: React.MouseEvent, x: number, y: number) => {
     e.preventDefault();
     if (gameOver || board[y][x].revealed) return;
-    const newBoard = board.map(row => row.map(cell => ({ ...cell })));
+    const newBoard = board.map((row) => row.map((cell) => ({ ...cell })));
     if (!newBoard[y][x].flagged && !newBoard[y][x].question) {
       newBoard[y][x].flagged = true;
       setMinesLeft((prev) => prev - 1);
@@ -197,7 +219,15 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
 
   const getNumberColor = (value: number) => {
     const colors = [
-      "", "text-blue-600", "text-green-600", "text-red-600", "text-blue-900", "text-red-900", "text-teal-600", "text-black", "text-gray-600"
+      "",
+      "text-blue-600",
+      "text-green-600",
+      "text-red-600",
+      "text-blue-900",
+      "text-red-900",
+      "text-teal-600",
+      "text-black",
+      "text-gray-600",
     ];
     return colors[value];
   };
@@ -238,7 +268,9 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
                     cell.value === "mine" ? (
                       <Bomb className="w-4 h-4" />
                     ) : cell.value > 0 ? (
-                      <span className={getNumberColor(cell.value as number)}>{cell.value}</span>
+                      <span className={getNumberColor(cell.value as number)}>
+                        {cell.value}
+                      </span>
                     ) : null
                   ) : cell.flagged ? (
                     <Flag className="w-4 h-4 text-red-600" />
