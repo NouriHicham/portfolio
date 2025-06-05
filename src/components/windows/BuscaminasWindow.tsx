@@ -114,10 +114,27 @@ function Minesweeper({ width = 9, height = 9, mines = 10 }: MinesweeperProps) {
     if (gameOver || board[y][x].revealed || board[y][x].flagged || board[y][x].question) return;
     if (firstClick) {
       const newBoard = placeMines(board, x, y);
-      setBoard(newBoard);
       setFirstClick(false);
       const interval = setInterval(() => setTimer((prev) => prev + 1), 1000);
       setTimerInterval(interval);
+
+      // Revelar la celda clicada y sus adyacentes si es 0
+      if (newBoard[y][x].value === "mine") {
+        // Esto no debería pasar, pero por seguridad
+        setBoard(newBoard);
+        setGameOver(true);
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          setTimerInterval(null);
+        }
+        return;
+      }
+      newBoard[y][x].revealed = true;
+      if (newBoard[y][x].value === 0) {
+        revealAdjacentCells(newBoard, x, y);
+      }
+      setBoard(newBoard);
+      return; // Importante: salir aquí para no ejecutar el resto del código
     }
     const newBoard = board.map(row => row.map(cell => ({ ...cell })));
     if (newBoard[y][x].value === "mine") {
