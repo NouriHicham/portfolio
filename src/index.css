@@ -83,6 +83,12 @@ body, h1, h2, h3, h4, h5, h6, p, span, label, input, button, ul, li, a, div {
   font-size: var(--font-size-root);
 }
 
+body, html {
+  overscroll-behavior: none; /* Evita el scroll elástico en móvil */
+  overflow: hidden;          /* Bloquea el scroll */
+  touch-action: none;        /* Evita gestos de arrastre */
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
