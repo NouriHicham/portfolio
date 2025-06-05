@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import React from "react";
 
 interface AboutWindowProps {
@@ -19,21 +19,28 @@ export default function AboutWindow({ onOpenSkills, onOpenProjects }: AboutWindo
         <li>🚀 En búsqueda de nuevos proyectos y oportunidades para seguir creciendo</li>
       </ul>
       <p>Este portfolio simula un escritorio porque representa cómo trabajo: organizado, técnico, con un toque personal y creativo.</p>
-      <div className="flex items-center">
+      <div className="flex items-center flex-wrap">
         <span
-        className="flex items-center mt-2 px-2 py-1 bg-gray-200 rounded text-sm tracking-widest cursor-pointer hover:bg-gray-300 select-none dark:text-gray-800"
+        className="flex items-center mt-2 mr-2 px-2 py-1 bg-gray-200 rounded text-sm tracking-widest cursor-pointer hover:bg-gray-300 select-none dark:text-gray-800"
         onClick={onOpenSkills}
         tabIndex={0}
         role="button">
           Skills <ArrowUpRight size={15} color="#000" className="ml-1" />
         </span>
         <span
-          className="flex items-center ml-2 mt-2 px-2 py-1 bg-gray-200 rounded text-sm tracking-widest cursor-pointer hover:bg-gray-300 select-none dark:text-gray-800 "
+          className="flex items-center mt-2 mr-2 px-2 py-1 bg-gray-200 rounded text-sm tracking-widest cursor-pointer hover:bg-gray-300 select-none dark:text-gray-800 "
           onClick={onOpenProjects}
           tabIndex={0}
           role="button">
             Projects <ArrowUpRight size={15} color="#000" className="ml-1" />
         </span>
+        <a
+          href="/CV_HichamNouri.pdf"
+          download
+          className="flex items-center mt-2 px-2 py-1 bg-gray-200 rounded text-sm tracking-widest cursor-pointer hover:bg-gray-300 select-none dark:text-gray-800"
+        >
+          <span className="whitespace-nowrap">Descargar CV</span> <ArrowDown size={15} color="#000" className="ml-1" />
+        </a>
       </div>
 
     </div>

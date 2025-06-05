@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Rnd } from "react-rnd";
 import { Minus, Square, X } from "lucide-react";
 
@@ -40,22 +40,22 @@ export default function Window({
   const prevSize = React.useRef(size);
   const prevPosition = React.useRef(position);
 
-  useEffect(() => {
-    if (isMaximized) {
+  const handleMaximize = () => {
+    if (!isMaximized) {
       prevSize.current = size;
       prevPosition.current = position;
       onChangeSize({ width: window.innerWidth, height: window.innerHeight - 48 });
       onChangePosition({ x: 0, y: 0 });
     } else {
-      // Restaurar tamaño y posición previos
+      // Restaurar tamaño y posición previos solo al restaurar
       onChangeSize(prevSize.current);
       onChangePosition(prevPosition.current);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMaximized]);
+    setIsMaximized((v) => !v);
+  };
 
   if (minimized) return null;
-
+  
   return (
     <Rnd
       size={size}
@@ -66,16 +66,15 @@ export default function Window({
       maxHeight={vh - 48}
       bounds="window"
       dragHandleClassName="drag-area"
-      className={`z-40 ${isActive ? "" : "opacity-80"}`}
+      className="z-40"
       onDragStop={(_, d) => onChangePosition({ x: d.x, y: d.y })}
       onResizeStop={(_, __, ref, ___, pos) => {
         onChangeSize({ width: ref.offsetWidth, height: ref.offsetHeight });
         onChangePosition(pos);
       }}
-      enableResizing={!isMaximized}
-      disableDragging={isMaximized || dragDisabled}>
+      >
       <div
-        className="flex flex-col h-full w-full bg-gray-100 border-1 border-blue-700 rounded shadow-lg"
+        className={`flex flex-col h-full w-full bg-gray-100 border-1 border-blue-700 rounded shadow-lg ${!isActive ? 'opacity-80' : ''}`}
         onMouseDown={onActivate}>
         <div className="window-titlebar flex items-center justify-between bg-gradient-to-r from-blue-700 to-blue-500 text-white px-3 py-2 select-none z-10 relative">
           <div className="drag-area flex-1 cursor-move flex items-center overflow-auto">
@@ -94,7 +93,7 @@ export default function Window({
             </button>
             <button
               className="hover:bg-blue-400 rounded flex items-center justify-center p-1.5 cursor-default"
-              onClick={() => setIsMaximized((v) => !v)}
+              onClick={handleMaximize}
               onMouseDown={e => e.stopPropagation()}
               title={isMaximized ? "Restaurar" : "Maximizar"}
               tabIndex={-1}
@@ -114,9 +113,9 @@ export default function Window({
             </button>
           </div>
         </div>
-        <div className="bg-white rounded-b flex-1 min-h-0 overflow-auto scroll-auto scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-200 z-0">
-          {children}
-        </div>
+          <div className="bg-white rounded-b flex-1 min-h-0 overflow-auto scroll-auto scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-200 z-0">
+            {children}
+          </div>
       </div>
     </Rnd>
   );

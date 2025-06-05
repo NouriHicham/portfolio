@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-    const options = [
-    { id: 0, label: "Muy pequeña" },
-    { id: 1, label: "Pequeña" },
-    { id: 2, label: "Grande" },
-    { id: 3, label: "Muy grande" },
-  ]
+const options = [
+  { id: 0, label: "Muy pequeña" },
+  { id: 1, label: "Pequeña" },
+  { id: 2, label: "Grande" },
+  { id: 3, label: "Muy grande" },
+];
 export default function SettingsWindow() {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("fontSize");
+      return saved ? Number(saved) : 0;
+    }
+    return 0;
+  });
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("theme") || "light";
@@ -19,8 +25,12 @@ export default function SettingsWindow() {
     document.body.classList.remove("theme-light", "theme-dark", "dark");
     if (theme === "dark") {
       document.body.classList.add("theme-dark", "dark");
+      const favicon = document.getElementById("favicon") as HTMLLinkElement | null;
+      if (favicon) favicon.href = "/window-dark.svg";
     } else {
       document.body.classList.add("theme-light");
+      const favicon = document.getElementById("favicon") as HTMLLinkElement | null;
+      if (favicon) favicon.href = "/window-light.svg";
     }
     localStorage.setItem("theme", theme);
   }, [theme]);
@@ -52,17 +62,16 @@ export default function SettingsWindow() {
           <span
             className={`w-4.5 h-4.5 bg-white rounded-full shadow transform transition-transform duration-300 ${theme === "dark" ? "translate-x-5.5" : "translate-x-0"}`}
           />
-          
         </button>
         <span className="ml-2 text-xs font-semibold select-none">
-            {theme === "dark" ? "Oscuro" : "Claro"}
-          </span>
+          {theme === "dark" ? "Oscuro" : "Claro"}
+        </span>
       </div>
       <p className="text-sm text-gray-600">Elige entre tema claro u oscuro para la interfaz.</p>
       <div className="mt-4 items-center gap-3">
         <label className="font-medium">Tamaño de texto:</label>
       </div>
-        <div className="w-full max-w-[300px] py-4">
+      <div className="w-full max-w-[300px] py-4">
         <div className="relative">
           {/* Línea horizontal */}
           <div className="absolute top-3 left-4 w-[90%] h-1 bg-gray-300 rounded-full " />
@@ -86,7 +95,7 @@ export default function SettingsWindow() {
             ))}
           </div>
         </div>
-        </div>
+      </div>
       <p className="text-sm text-gray-600">Elige el tamaño de fuente para la interfaz.</p>
     </div>
   );
