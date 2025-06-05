@@ -27,7 +27,7 @@ import {
   Bomb
 } from "lucide-react";
 
-// Asegura tema por defecto al cargar la app
+// Asegura tema y tamaño de letra por defecto al cargar la app
 if (typeof window !== "undefined") {
   const savedTheme = localStorage.getItem("theme");
   if (!savedTheme || savedTheme === "light") {
@@ -37,6 +37,13 @@ if (typeof window !== "undefined") {
   } else if (savedTheme === "dark") {
     document.body.classList.remove("theme-light");
     document.body.classList.add("theme-dark", "dark");
+  }
+  // Aplica tamaño de letra guardado
+  const savedFontSize = localStorage.getItem("fontSize");
+  if (savedFontSize) {
+    const fontSizes = ["14px", "16px", "18px", "22px"];
+    const size = fontSizes[Number(savedFontSize)] || "16px";
+    document.body.style.setProperty("--font-size-root", size);
   }
 }
 
@@ -207,7 +214,7 @@ export default function App() {
       {/* Escritorio */}
       {!showShutdown && (
         <div className="absolute inset-0">
-          <div className="p-6 flex flex-col gap-6">
+          <div className="p-6 grid gap-6">
             {desktopMainIcons.map((icon) => (
               <DesktopIcon
                 key={icon.id}
