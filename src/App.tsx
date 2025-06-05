@@ -273,6 +273,7 @@ export default function App() {
         if (!windowState[id]) {
           windowState[id] = getInitialWindowState(id);
         }
+        const activeWindowId = openWindows[openWindows.length - 1];
         return (
           <Window
             key={id}
@@ -291,7 +292,7 @@ export default function App() {
             minimized={minimized[id]}
             onMinimize={() => handleMinimizeWindow(id)}
             onRestore={() => handleRestoreWindow(id)}
-            isActive={!minimized[id]}
+            isActive={activeWindowId === id && !minimized[id]}
             onActivate={() => {
               if (openWindows[openWindows.length - 1] !== id) {
                 setOpenWindows((wins) => [...wins.filter((w) => w !== id), id]);
