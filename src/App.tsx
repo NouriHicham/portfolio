@@ -238,7 +238,7 @@ export default function App() {
             />
             <div>
               <div><span className="text-white font-semibold text-sm">Hicham Nouri Chahid</span></div>
-              <div><span className="text-white text-sm">Programador de Software</span></div>
+              <div><span className="text-white text-sm">Fullstack Developer</span></div>
             </div>
           </div>
           {menuIcons.map((icon, idx) => (
