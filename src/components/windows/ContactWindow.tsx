@@ -98,10 +98,10 @@ export default function ContactWindow() {
       <div className="border-t border-gray-300 mt-5 pt-4"></div>
       <h3 className="font-bold mb-2">Información de contacto</h3>
       <ul className="pl-1 mb-4 list-none">
-        <li className="flex items-center">📧 <a href="mailto:hichak55@gmail.com" className="flex items-center hover:underline ml-1">hichak55@gmail.com <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight> </a></li>
+        <li className="flex items-center"><a href="mailto:hichak55@gmail.com" target="_blank" className="flex items-center hover:underline ml-1">📧 hichak55@gmail.com <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight> </a></li>
         <li>📞 +34 634 723 067</li>
-        <li className="flex items-center">🌐 <a href="linkedin.com/in/nourihicham174/" className="flex items-center hover:underline ml-1">linkedin.com/in/nourihicham174/ <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight></a></li>
-        <li className="flex items-center">🐱 <a href="github.com/NouriHicham174" className="flex items-center hover:underline ml-1"> github.com/NouriHicham174 <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight></a></li>
+        <li className="flex items-center"><a href="https://linkedin.com/in/nourihicham174/" target="_blank" className="flex items-center hover:underline ml-1">🌐 linkedin.com/in/nourihicham174/ <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight></a></li>
+        <li className="flex items-center"><a href="https://github.com/NouriHicham174" target="_blank" className="flex items-center hover:underline ml-1">🐱  github.com/NouriHicham174 <ArrowUpRight size={15} className="ml-0.5"></ArrowUpRight></a></li>
         <li>📍 <span className="ml-1">Barcelona, España</span></li>
       </ul>
       {modal && (
